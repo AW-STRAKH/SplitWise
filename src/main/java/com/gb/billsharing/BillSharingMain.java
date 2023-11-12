@@ -27,13 +27,15 @@ public class BillSharingMain {
 
         Expense expense = createLunchExpense();
         try {
+            // expense creator not getting assigned to expense group initall: had to add it separately
             bifurcateExpense(expense.getId());
+
         } catch (ExpenseDoesNotExistsException expenseDoesNotExistsException) {
             System.out.println(expenseDoesNotExistsException.getMessage());
         }
         expense.setExpenseStatus(ExpenseStatus.PENDING);
-
         Set<User> users = expense.getExpenseGroup().getGroupMembers();
+
         for (User user : users) {
             contributeToExpense(expense.getId(), user.getEmailId());
         }
@@ -87,6 +89,7 @@ public class BillSharingMain {
         expenseService.assignExpenseShare(expenseId, "divya@gmail.com", 400);
         expenseService.assignExpenseShare(expenseId, "palani@gmail.com", 400);
         expenseService.assignExpenseShare(expenseId, "neha@gmail.com", 400);
+
     }
 
     private static void contributeToExpense(String expenseId, String userId)
